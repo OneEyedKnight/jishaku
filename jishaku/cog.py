@@ -50,10 +50,6 @@ __all__ = (
     "setup"
 )
 
-ENABLED_SYMBOLS = ("true", "t", "yes", "y", "on", "1")
-JISHAKU_HIDE = os.getenv("JISHAKU_HIDE", "").lower() in ENABLED_SYMBOLS
-JISHAKU_RETAIN = os.getenv("JISHAKU_RETAIN", "").lower() in ENABLED_SYMBOLS
-
 
 CommandTask = collections.namedtuple("CommandTask", "index ctx task")
 
@@ -118,7 +114,7 @@ class Jishaku(commands.Cog):  # pylint: disable=too-many-public-methods
             raise commands.NotOwner("You must own this bot to use Jishaku.")
         return True
 
-    @commands.group(name="jishaku", aliases=["jsk"], hidden=JISHAKU_HIDE,
+    @commands.group(name="jishaku", aliases=["jsk"], hidden=True,
                     invoke_without_command=True, ignore_extra=False)
     async def jsk(self, ctx: commands.Context):
         """
@@ -165,19 +161,6 @@ class Jishaku(commands.Cog):  # pylint: disable=too-many-public-methods
         summary.append(f"Average websocket latency: {round(self.bot.latency * 1000, 2)}ms")
 
         await ctx.send("\n".join(summary))
-
-    # Meta commands
-    @jsk.command(name="hide")
-    async def jsk_hide(self, ctx: commands.Context):
-        """
-        Hides Jishaku from the help command.
-        """
-
-        if self.jsk.hidden:
-            return await ctx.send("Jishaku is already hidden.")
-
-        self.jsk.hidden = True
-        await ctx.send("Jishaku is now hidden.")
 
     @jsk.command(name="show")
     async def jsk_show(self, ctx: commands.Context):
