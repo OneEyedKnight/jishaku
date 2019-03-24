@@ -50,6 +50,9 @@ __all__ = (
     "setup"
 )
 
+ENABLED_SYMBOLS = ("true", "t", "yes", "y", "on", "1")
+JISHAKU_HIDE = os.getenv("JISHAKU_HIDE", "").lower() in ENABLED_SYMBOLS
+JISHAKU_RETAIN = os.getenv("JISHAKU_RETAIN", "").lower() in ENABLED_SYMBOLS
 
 CommandTask = collections.namedtuple("CommandTask", "index ctx task")
 
